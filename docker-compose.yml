@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  golang-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "${GO_BACKEND_PORT}:${GO_BACKEND_PORT}"
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    depends_on:
+      db:
+        condition: service_started
+        restart: true
+    networks:
+      - backend_network
+
+  nuxt-frontend:
+    build:
+      context: ./admin-dashboard
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "${NUXT_FRONTEND_PORT}:${NUXT_FRONTEND_PORT}"
+    environment:
+      - API_URL=http://golang-backend:${GO_BACKEND_PORT}
+    depends_on:
+      - golang-backend
+    networks:
+      - frontend_network
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - backend_network
+
+volumes:
+  db_data:
+
+networks:
+  backend_network:
+  frontend_network:
