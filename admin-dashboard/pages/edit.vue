@@ -58,11 +58,11 @@ export default {
       });
     },
     addColumn() {
-      const newColumn = prompt("Enter the new column header name:");
+      const newColumn = prompt("Введите название новой колонки:");
       if (newColumn && newColumn.trim() !== "") {
         const trimmedColumn = newColumn.trim();
         if (this.columns.includes(trimmedColumn)) {
-          alert("Column name must be unique.");
+          alert("Имя колонки должно быть уникальным");
           return;
         }
         this.columns.push(trimmedColumn);
@@ -70,7 +70,7 @@ export default {
           row.days_columns[trimmedColumn] = 0;
         });
       } else {
-        alert("Column name cannot be empty.");
+        alert("Имя колонки не может быть пустым");
       }
     },
     async saveData() {
@@ -91,7 +91,7 @@ export default {
         this.showNotification("Данные успешно сохранены", "success");
       } catch (error) {
         this.showNotification("Ошибка при сохранении данных", "error");
-        console.error("Error saving data:", error);
+        console.error("Ошибка при сохранении данных:", error);
       }
     },
     showNotification(message, type = "success") {
