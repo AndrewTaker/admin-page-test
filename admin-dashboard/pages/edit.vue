@@ -75,6 +75,8 @@ export default {
     },
     async saveData() {
       const config = useRuntimeConfig();
+      console.log(config);
+      console.log(config.public.apiUrl);
       try {
         const response = await fetch(`${config.public.apiUrl}/data`, {
           method: "POST",

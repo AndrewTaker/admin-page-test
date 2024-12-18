@@ -27,7 +27,7 @@ services:
     ports:
       - "${NUXT_FRONTEND_PORT}:${NUXT_FRONTEND_PORT}"
     environment:
-      - API_URL=http://golang-backend:${GO_BACKEND_PORT}
+      - API_BASE_URL=http://golang-backend:${GO_BACKEND_PORT}
     depends_on:
       - golang-backend
     networks:
