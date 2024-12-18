@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   css: ["./assets/stylesheet.css"],
   runtimeConfig: ({
     public: {
-      apiUrl: process.env.API_BASE_URL || "http://golang-backend:6969",
+      apiUrl: process.env.API_BASE_URL || "http://localhost:6969",
     },
   }),
 });
